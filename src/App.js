@@ -1,15 +1,20 @@
 import React, {useState} from 'react'
-import './css/index.css'
+import {Routes, Route, Navigate } from 'react-router-dom'
+import Home from "./components/home/Home.js"
+import NavBar from "./components/navbar/NavBar.js"
 
 const App = () => {
-    const [counter, setCounter] = useState(0)
+    
     return (
         <div className="container">
-            hello world<br />
-            count: {counter}<br />
-            <button onClick={() => {setCounter(counter + 1)}}>add 1</button>
+            <NavBar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="*" element={<h2>Page Not Found</h2>} />
+            </Routes>
         </div>
     )
 }
+
 
 export default App
