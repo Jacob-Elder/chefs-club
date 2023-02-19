@@ -1,4 +1,4 @@
-.NavBar {
-    width : 100%;
-    background-color: gray;
+.link {
+    text-decoration: none;
+    font-size: 1.5em;
 }

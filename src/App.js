@@ -6,13 +6,15 @@ import NavBar from "./components/navbar/NavBar.js"
 const App = () => {
     
     return (
+        <>
+        <NavBar />
         <div className="container">
-            <NavBar />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
         </div>
+        </>
     )
 }
 
