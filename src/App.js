@@ -8,7 +8,7 @@ const App = () => {
     return (
         <>
         <NavBar />
-        <div className="container">
+        <div>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<h2>Page Not Found</h2>} />

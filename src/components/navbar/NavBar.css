@@ -1,4 +1,13 @@
+.navbar {
+    background-color: green;
+}
+
 .link {
     text-decoration: none;
     font-size: 1.5em;
+    color: white;
+}
+
+.logo {
+    width : 200px;
 }
