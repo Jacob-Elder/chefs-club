@@ -31,6 +31,10 @@
                 "In the same bowl, mix in the eggs and then the chocolate chips",
                 "Preheat the oven to 375 degrees",
                 "Bake cookies on a greased baking sheet for 10 - 12 minutes"
+            ],
+            "tags" : [
+                "cookies",
+                "dessert"
             ]
         },
         {
@@ -49,6 +53,11 @@
                 "Lower heat and let the sauce simmer for 10 minutes",
                 "Boil pasta in a large pot until done",
                 "Serve and enjoy!"
+            ],
+            "tags" : [
+                "pasta",
+                "italian",
+                "spaghetti"
             ]
         }
     ]
