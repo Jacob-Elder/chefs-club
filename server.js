@@ -34,7 +34,11 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    allPosts: (root, args) => posts,
+    allPosts: (root, args) => {
+      console.log("allPosts request made to server")
+      console.log("returning", posts)
+      return posts
+    },
     findPostById: (root, args) => {
       const post = posts.find(p => p.id.toString() === args.id)
       //throw an error if user does not exist
@@ -75,6 +79,4 @@ startStandaloneServer(server, {
   listen: { port: 4000 },
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)
-  console.log(users)
-  console.log(posts)
 })
