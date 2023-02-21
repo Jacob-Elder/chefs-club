@@ -1,6 +1,13 @@
 const path = require('path')
+const webpack = require("webpack")
 
-const config = () => {
+const config = (env, argv) => {
+  console.log("argv.mode = ", argv.mode)
+  //define global variables based on environment (development/production)
+  const backend_url = argv.mode === "production"
+    ? "http://localhost:4000"
+    : "http://localhost:4000"
+
   return {
     entry: './src/index.js',
     output: {
@@ -32,6 +39,11 @@ const config = () => {
         }
       ]
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        BACKEND_URL: JSON.stringify(backend_url)
+      })
+    ]
   }
 }
 

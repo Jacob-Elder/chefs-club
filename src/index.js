@@ -9,7 +9,7 @@ import 'regenerator-runtime/runtime.js'
 
 //create apollo client to interact with apollo server
 const client = new ApolloClient({
-    uri: 'http://localhost:4000',
+    uri: BACKEND_URL,
     cache: new InMemoryCache()
 })
 
