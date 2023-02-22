@@ -7,15 +7,18 @@ const postSchema = new mongoose.Schema({
     },
     ingredients: [{
         type: String,
-        required: true
+        required: true,
+        default: []
     }],
     steps: [{
         type: String,
-        required: true
+        required: true,
+        default: []
     }],
     tags: [{
         type: String,
-        required: true
+        required: true,
+        default: []
     }],
     date: {
         type: Date,

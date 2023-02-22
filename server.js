@@ -3,7 +3,6 @@ const { startStandaloneServer } = require('@apollo/server/standalone')
 const {GraphQLError} = require('graphql')
 //include mongoose and all schemas
 const mongoose = require("mongoose")
-const ObjectId = mongoose.ObjectId;
 mongoose.set("strictQuery", false)
 const User = require("./models/user.js")
 const Post = require("./models/post.js")
@@ -29,10 +28,28 @@ const typeDefs = `
         likes: Int!
     }
 
+    type User {
+      _id: ID!
+      email: String!
+      username: String!
+      password: String!
+      userPosts: [ID!]
+      likedPosts: [ID!]
+    }
+
     type Query {
         allPosts: [Post!]
         topPosts: [Post!]
         newPosts: [Post!]
+        getUserData(_id: ID!) : User
+    }
+
+    type Mutation {
+      addUser(
+        email: String!
+        username: String!
+        password: String!
+      ): User
     }
 `
 
@@ -70,6 +87,21 @@ const resolvers = {
           console.log("error getting newest posts from MongoDB")
           throw err;
         })
+    },
+    getUserData: (root, args) => {
+      //get user data based on ID
+      console.log("trying to find user with ID: ", args._id)
+      return User.findOne({_id: args._id})
+        .then(result => {
+          console.log(result)
+          return result
+        })
+    }
+  },
+  Mutation: {
+    addUser: (root, args) => {
+      const newUser = new User({...args, userPosts: [], likedPosts: []})
+      return newUser.save()
     }
   }
 }

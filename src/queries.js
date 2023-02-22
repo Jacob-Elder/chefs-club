@@ -37,6 +37,37 @@ query {
 }
 `
 
+//query to create a new user on signup. Requires email, username, and password
+export const CREATE_USER = gql`
+mutation createUser($email: String!, $username: String!, $password: String!) {
+  addUser(
+    email: $email
+    username: $username
+    password: $password
+  ) {
+    _id
+    email
+    username
+    userPosts
+    likedPosts
+  }
+}
+`
+
+//query to get a user's profile by ID
+export const GET_USER_PROFILE = gql`
+  query getUserData($_id: ID!) {
+    getUserData(
+      _id: $_id
+    ) {
+      _id
+      username
+      userPosts
+      likedPosts
+    }
+  }
+`
+
 
 // export const FIND_USER_BY_ID = gql`
 // query findUserById($id: String!) {
