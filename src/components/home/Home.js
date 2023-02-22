@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { ALL_POSTS } from '../../queries'
+import { TOP_AND_NEW_POSTS } from '../../queries'
 import "./Home.css"
 
 const PostList = ({posts}) => {
@@ -33,7 +33,7 @@ const PostList = ({posts}) => {
 
 const Home = () => {
 
-    const posts = useQuery(ALL_POSTS)
+    const posts = useQuery(TOP_AND_NEW_POSTS)
     
     if (posts.loading) {
         return <div>loading...</div>
@@ -41,8 +41,10 @@ const Home = () => {
 
     return (
         <div className="home">
-            <h2>This is the homepage</h2>
-            <PostList posts={posts.data.allPosts} />
+            <h2>Most Liked Recipes</h2>
+            <PostList posts={posts.data.topPosts} />
+            <h2>Newly Posted Recipes</h2>
+            <PostList posts={posts.data.newPosts} />
         </div>
     )
 }

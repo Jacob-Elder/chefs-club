@@ -26,10 +26,13 @@ const typeDefs = `
         steps: [String!]
         tags: [String!]
         date: String!
+        likes: Int!
     }
 
     type Query {
         allPosts: [Post!]
+        topPosts: [Post!]
+        newPosts: [Post!]
     }
 `
 
@@ -43,6 +46,28 @@ const resolvers = {
         })
         .catch(err => {
           console.log("error getting posts from MongoDB")
+          throw err;
+        })
+    },
+    topPosts: (root, args) => {
+      //get top 5 most liked posts
+      return Post.find().sort({likes: -1}).limit(5)
+        .then(posts => {
+          return posts
+        })
+        .catch(err => {
+          console.log("error getting top posts from MongoDB")
+          throw err;
+        })
+    },
+    newPosts: (root, args) => {
+      //get top 5 newest posts
+      return Post.find().sort({date: -1}).limit(5)
+        .then(posts => {
+          return posts
+        })
+        .catch(err => {
+          console.log("error getting newest posts from MongoDB")
           throw err;
         })
     }
