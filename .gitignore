@@ -3,6 +3,7 @@
 
 #ignore environment variables
 .env
+mongo.js
 
 .DS_Store
 node_modules

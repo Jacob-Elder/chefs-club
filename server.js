@@ -1,71 +1,50 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
 const {GraphQLError} = require('graphql')
-const DB = require("./db.json")
+//include mongoose and all schemas
+const mongoose = require("mongoose")
+const ObjectId = mongoose.ObjectId;
+mongoose.set("strictQuery", false)
+const User = require("./models/user.js")
+const Post = require("./models/post.js")
+require('dotenv').config()
+//use mongoose to connect to MongoDB
+const MONGODB_URI = process.env.MONGODB_URI
+mongoose.connect(MONGODB_URI).then(() => {
+  console.log("connected to mongodb")
+}).catch((error) => {
+  console.log("error occured trying to connect to mongodb", error.message)
+})
 
-let users = DB.users
-let posts = DB.posts
 
 const typeDefs = `
 
     type Post {
-        id: String!
-        userId: String!
+        _id: ID!
         title: String!
-        ingredients: [String!]!
-        steps: [String!]!
-        tags: [String!]!
-    }
-
-    type User {
-        id: String!
-        email: String!
-        username: String!
-        password: String!
-        userPosts: [String!]!
+        ingredients: [String!]
+        steps: [String!]
+        tags: [String!]
+        date: String!
     }
 
     type Query {
-        allPosts: [Post!]!
-        findPostById(id: String!): Post
-        findUserById(id: String!): User
+        allPosts: [Post!]
     }
 `
 
 const resolvers = {
   Query: {
     allPosts: (root, args) => {
-      console.log("allPosts request made to server")
-      console.log("returning", posts)
-      return posts
-    },
-    findPostById: (root, args) => {
-      const post = posts.find(p => p.id.toString() === args.id)
-      //throw an error if user does not exist
-      if (!post) {
-        throw new GraphQLError("Could not find post", {
-          extensions: {
-            code: "BAD_USER_INPUT",
-            invalidArgs: args.id
-          }
+      //get all posts from MongoDB
+      return Post.find()
+        .then(posts => {
+          return posts
         })
-      }
-      // return post
-      return post
-    },
-    findUserById: (root, args) => {
-      const user = users.find(u => u.id.toString() === args.id)
-      //throw an error if user does not exist
-      if (!user) {
-        throw new GraphQLError("Could not find user", {
-          extensions: {
-            code: "BAD_USER_INPUT",
-            invalidArgs: args.id
-          }
+        .catch(err => {
+          console.log("error getting posts from MongoDB")
+          throw err;
         })
-      }
-      // return user
-      return user
     }
   }
 }

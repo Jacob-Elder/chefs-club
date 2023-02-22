@@ -7,7 +7,7 @@ const PostList = ({posts}) => {
     console.log("passed to PostList: ", posts)
     return (
         posts.map(post => 
-            <div key={post.id}>
+            <div key={post._id}>
                 Title: {post.title}<br />
                 Ingredients:
                 <ul>
