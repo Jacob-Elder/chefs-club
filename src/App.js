@@ -11,6 +11,8 @@ const App = () => {
     if (!window.Promise) {
         window.Promise = PromisePolyfill
     }
+
+    const [token, setToken] = useState(null)
     
     return (
         <>
@@ -19,7 +21,7 @@ const App = () => {
         <div>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<LoginForm />} />
+                <Route path="/login" element={<LoginForm setToken={setToken} />} />
                 <Route path="/users/:id" element={<UserProfile />} />
                 <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
