@@ -1,6 +1,7 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
 const {GraphQLError} = require('graphql')
+const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 //include mongoose and all schemas
 const mongoose = require("mongoose")
@@ -39,6 +40,10 @@ const typeDefs = `
       likedPosts: [ID!]
     }
 
+    type Token {
+      value: String!
+    }
+
     type Query {
         allPosts: [Post!]
         topPosts: [Post!]
@@ -52,6 +57,10 @@ const typeDefs = `
         username: String!
         password: String!
       ): User
+      login(
+        email: String!
+        password: String!
+      ): Token
     }
 `
 
@@ -120,6 +129,28 @@ const resolvers = {
       }
       //return new user to the client
       return newUser
+    },
+    login: async (root, args) => {
+      //find user with the given email
+      const user = await User.findOne({email: args.email})
+      //compare given password to hash password in DB
+      const passwordCorrect = !user ? false : await bcrypt.compare(args.password, user.password)
+      //throw an error if email or password is not valid
+      if (!(user && passwordCorrect)) {
+        throw new GraphQLError("Email or Password is invalid", {
+          extensions: {
+            code: "BAD_USER_INPUT"
+          }
+        })
+      }
+      //create object with needed info for token
+      const userForToken = {
+        email: user.email,
+        username: user.username,
+        _id: user._id,
+      }
+      //create and return the web token
+      return {value: jwt.sign(userForToken, process.env.SECRET)}
     }
   }
 }

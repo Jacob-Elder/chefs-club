@@ -57,6 +57,18 @@ mutation createUser($email: String!, $username: String!, $password: String!) {
 }
 `
 
+//query to login user that returns a web token
+export const LOGIN = gql`
+mutation login($email: String!, password: String!) {
+  login(
+    email: $email
+    password: $password
+  ) {
+    value
+  }
+}
+`
+
 //query to get a user's profile by ID
 export const GET_USER_PROFILE = gql`
   query getUserData($_id: ID!) {
