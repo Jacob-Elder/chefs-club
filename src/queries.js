@@ -4,6 +4,7 @@ export const ALL_POSTS = gql`
 query {
   allPosts {
     _id
+    userId
     title
     ingredients
     steps
@@ -18,6 +19,7 @@ export const TOP_AND_NEW_POSTS = gql`
 query {
   topPosts {
     _id
+    userId
     title
     ingredients
     steps
@@ -27,6 +29,7 @@ query {
   }
   newPosts {
     _id
+    userId
     title
     ingredients
     steps

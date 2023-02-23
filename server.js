@@ -1,6 +1,7 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
 const {GraphQLError} = require('graphql')
+const bcrypt = require("bcrypt")
 //include mongoose and all schemas
 const mongoose = require("mongoose")
 mongoose.set("strictQuery", false)
@@ -20,6 +21,7 @@ const typeDefs = `
 
     type Post {
         _id: ID!
+        userId: ID!
         title: String!
         ingredients: [String!]
         steps: [String!]
@@ -99,9 +101,25 @@ const resolvers = {
     }
   },
   Mutation: {
-    addUser: (root, args) => {
-      const newUser = new User({...args, userPosts: [], likedPosts: []})
-      return newUser.save()
+    addUser: async (root, args) => {
+      //hash the given password and create new User
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(args.password, saltRounds)
+      const newUser = new User({...args, password: passwordHash, userPosts: [], likedPosts: []})
+      //save the new user to DB (or throw an error)
+      try {
+        await newUser.save()
+      } catch (error) {
+        throw new GraphQLError("Saving New User Failed", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+            invalidArgs: args.username,
+            error
+          }
+        })
+      }
+      //return new user to the client
+      return newUser
     }
   }
 }
