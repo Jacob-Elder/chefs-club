@@ -2,34 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { TOP_AND_NEW_POSTS } from '../../queries'
 import "./Home.css"
-
-const PostList = ({posts}) => {
-    console.log("passed to PostList: ", posts)
-    return (
-        posts.map(post => 
-            <div key={post._id}>
-                Title: {post.title}<br />
-                Ingredients:
-                <ul>
-                    {post.ingredients.map(ingredient => 
-                        <li key={ingredient}>
-                            {ingredient}
-                        </li>
-                    )}
-                </ul>
-                Steps:
-                <ol>
-                    {post.steps.map(step =>
-                        <li key={step}>
-                            {step}
-                        </li>
-                    )}
-                </ol>
-                Tags: {post.tags.toString()}
-            </div>
-        )
-    )
-}
+import PostList from "../PostList/PostList.js"
 
 const Home = () => {
 

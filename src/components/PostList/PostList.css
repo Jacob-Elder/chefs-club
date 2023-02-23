@@ -1,0 +1,10 @@
+.list {
+    width: 100;
+    text-align: center;
+}
+
+.post {
+    width: 80%;
+    background-color: gray;
+    margin: 20px 20px auto;
+}
