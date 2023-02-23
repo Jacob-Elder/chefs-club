@@ -59,7 +59,7 @@ mutation createUser($email: String!, $username: String!, $password: String!) {
 
 //query to login user that returns a web token
 export const LOGIN = gql`
-mutation login($email: String!, password: String!) {
+mutation login($email: String!, $password: String!) {
   login(
     email: $email
     password: $password
