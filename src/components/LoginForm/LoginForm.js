@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom'
 import {useMutation} from "@apollo/client"
 import {LOGIN} from "../../queries.js"
 import "./LoginForm.css"
+import ErrorMessage from '../ErrorMessage/ErrorMessage.js'
 
 const LoginForm = ({setToken}) => {
     const [email, setEmail] = useState("")
@@ -42,7 +43,8 @@ const LoginForm = ({setToken}) => {
                 Password: <input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} />
                 <button type="submit">login</button>
             </form>
-            <p>{error}</p>
+            {error !== "" ? <ErrorMessage message={error} /> : null}
+            Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
     )
 }

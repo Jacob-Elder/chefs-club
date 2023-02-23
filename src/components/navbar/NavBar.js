@@ -17,9 +17,6 @@ const NavBar = () => {
                 </Nav>
                 <Nav>
                     <Nav.Link href="#" as="span">
-                        <Link className='link' to="/signup">Sign Up</Link>
-                    </Nav.Link>
-                    <Nav.Link href="#" as="span">
                         <Link className='link' to="/login">Login</Link>
                     </Nav.Link>
                 </Nav>

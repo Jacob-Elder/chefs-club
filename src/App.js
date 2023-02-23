@@ -22,6 +22,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginForm setToken={setToken} />} />
+                <Route path="/signup" element={<h2>Sign Up</h2>} />
                 <Route path="/users/:id" element={<UserProfile />} />
                 <Route path="*" element={<h2>Page Not Found</h2>} />
             </Routes>
