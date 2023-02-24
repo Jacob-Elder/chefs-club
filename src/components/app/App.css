@@ -2,3 +2,8 @@
     position: relative;
     min-height: 100vh;
 }
+
+#content-wrap {
+    padding-top: 9rem;
+    padding-bottom: 3.5rem;
+}

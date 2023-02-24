@@ -18,15 +18,17 @@ const App = () => {
     return (
         <div id="page-container">
             <NavBar />
-            <Link to="/users/63f6c389dadc96cc795852ab">test</Link>
-            <div>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<LoginForm setToken={setToken} />} />
-                    <Route path="/signup" element={<h2>Sign Up</h2>} />
-                    <Route path="/users/:id" element={<UserProfile />} />
-                    <Route path="*" element={<h2>Page Not Found</h2>} />
-                </Routes>
+            <div id="content-wrap">
+                <Link to="/users/63f6c389dadc96cc795852ab">test</Link>
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<LoginForm setToken={setToken} />} />
+                        <Route path="/signup" element={<h2>Sign Up</h2>} />
+                        <Route path="/users/:id" element={<UserProfile />} />
+                        <Route path="*" element={<h2>Page Not Found</h2>} />
+                    </Routes>
+                </div>
             </div>
             <Footer />
         </div>

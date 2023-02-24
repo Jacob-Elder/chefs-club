@@ -1,5 +1,8 @@
 .navbar {
     background-color: green;
+    position: fixed;
+    width : 100%;
+    height: 7rem;
 }
 
 .link {
