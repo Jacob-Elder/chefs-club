@@ -49,6 +49,7 @@ const typeDefs = `
         topPosts: [Post!]
         newPosts: [Post!]
         getUserData(_id: ID!) : User
+        me: User
     }
 
     type Mutation {
@@ -107,6 +108,9 @@ const resolvers = {
           console.log(result)
           return result
         })
+    },
+    me: (root, args, context) => {
+      return context.currentUser
     }
   },
   Mutation: {
@@ -160,8 +164,19 @@ const server = new ApolloServer({
   resolvers,
 })
 
+//start server and set context to allow for authorization header in requests
+//context is given to all resolvers as their 3rd parameter
+//context is the place to perform logic that is shared by multiple resolvers (such as authentication)
 startStandaloneServer(server, {
   listen: { port: 4000 },
+  context: async ({req, res}) => {
+    const auth = req ? req.headers.authorization : null
+    if (auth && auth.startsWith('Bearer ')) {
+      const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
+      const currentUser = await User.findOne({_id : decodedToken._id})
+      return { currentUser }
+    }
+  }
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
