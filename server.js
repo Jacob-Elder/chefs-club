@@ -62,6 +62,12 @@ const typeDefs = `
         email: String!
         password: String!
       ): Token
+      addPost(
+        title : String!
+        ingredients : [String!]!
+        steps : [String!]!
+        tags : [String!]!
+      ) : Post
     }
 `
 
@@ -155,6 +161,39 @@ const resolvers = {
       }
       //create and return the web token
       return {value: jwt.sign(userForToken, process.env.SECRET)}
+    },
+    addPost: async (root, args, context) => {
+      //get the current user
+      const currentUser = context.currentUser
+      //throw an error if not logged in
+      if (!currentUser) {
+        throw new GraphQLError("Must be logged in to post", {
+          extensions: {
+            code: 'BAD_USER_INPUT'
+          }
+        })
+      }
+      //create a new Post using the args passed from the client
+      const newPost = new Post({
+        ...args,
+        userId: currentUser._id,
+        date: Date.now(),
+        likes: 0
+      })
+      //save the new post to DB
+      try {
+        await newPost.save()
+      }
+      catch (error) {
+        throw new GraphQLError("saving new post failed", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+            error
+          }
+        })
+      }
+      //return new post to the client
+      return newPost
     }
   }
 }
