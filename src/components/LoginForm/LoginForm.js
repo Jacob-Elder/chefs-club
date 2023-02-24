@@ -3,7 +3,7 @@ import {useNavigate, Link} from 'react-router-dom'
 import {useMutation} from "@apollo/client"
 import {LOGIN} from "../../queries.js"
 import "./LoginForm.css"
-import ErrorMessage from '../ErrorMessage/ErrorMessage.js'
+import ErrorMessage from '../errorMessage/ErrorMessage.js'
 
 const LoginForm = ({setToken}) => {
     const [email, setEmail] = useState("")

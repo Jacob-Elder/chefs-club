@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import { TOP_AND_NEW_POSTS } from '../../queries'
 import "./Home.css"
-import PostList from "../PostList/PostList.js"
+import PostList from "../postList/PostList.js"
 
 const Home = () => {
 

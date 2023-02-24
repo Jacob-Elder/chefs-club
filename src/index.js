@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client'
 import {setContext} from "@apollo/client/link/context"
-import App from "./App.js"
+import App from "./components/app/App.js"
 //core-js and regenerator-runtime so async/await works on older browsers (IE)
 import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
