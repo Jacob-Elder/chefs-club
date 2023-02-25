@@ -116,6 +116,7 @@ const resolvers = {
         })
     },
     me: (root, args, context) => {
+      console.log("me server route hit. returning: ", context.currentUser)
       return context.currentUser
     }
   },

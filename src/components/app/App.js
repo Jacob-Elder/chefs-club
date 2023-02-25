@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
-import {Routes, Route, Navigate, Link } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {Routes, Route, Link} from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import { GET_CURRENT_USER } from '../../queries'
 import NavBar from "../navbar/NavBar.js"
 import Footer from "../footer/Footer.js"
 import Home from "../home/Home.js"
@@ -14,10 +16,22 @@ const App = () => {
     }
 
     const [token, setToken] = useState(null)
+    const [me, setMe] = useState(null)
+
+    const currentUserQuery = useQuery(GET_CURRENT_USER, {
+        fetchPolicy: 'network-only',
+        onCompleted: (data) => {
+            console.log("user query completed", data)
+            if (data.me) {
+                setMe(data.me)
+            }
+        }
+    }, [token, me])
     
     return (
         <div id="page-container">
-            <NavBar />
+            {/* {currentUserQuery.loading || currentUserQuery.error ? <NavBar currentUser={null} />  : <NavBar currentUser={currentUser} />} */}
+            <NavBar currentUser={me} key={me} />
             <div id="content-wrap">
                 <Link to="/users/63f6c389dadc96cc795852ab">test</Link>
                 <div>

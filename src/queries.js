@@ -1,4 +1,5 @@
 import {gql} from '@apollo/client'
+import { _immediateFn } from 'promise-polyfill'
 
 export const ALL_POSTS = gql`
 query {
@@ -81,6 +82,19 @@ export const GET_USER_PROFILE = gql`
       likedPosts
     }
   }
+`
+
+//query to get the current user with web token
+export const GET_CURRENT_USER = gql`
+query {
+  me {
+    _id
+    username
+    email
+    userPosts
+    likedPosts
+  }
+}
 `
 
 
