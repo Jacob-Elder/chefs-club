@@ -10,28 +10,25 @@ import LoginForm from '../loginForm/LoginForm.js'
 import "./App.css"
 
 const App = () => {
-    //use polyfill so promises work on older browsers (IE)
+    
     if (!window.Promise) {
         window.Promise = PromisePolyfill
     }
 
     const [token, setToken] = useState(null)
-    const [me, setMe] = useState(null)
 
     const currentUserQuery = useQuery(GET_CURRENT_USER, {
-        fetchPolicy: 'network-only',
         onCompleted: (data) => {
             console.log("user query completed", data)
-            if (data.me) {
-                setMe(data.me)
-            }
         }
-    }, [token, me])
+    }, [])
+
+    console.log(currentUserQuery.error)
     
     return (
         <div id="page-container">
-            {/* {currentUserQuery.loading || currentUserQuery.error ? <NavBar currentUser={null} />  : <NavBar currentUser={currentUser} />} */}
-            <NavBar currentUser={me} key={me} />
+            {currentUserQuery.loading || currentUserQuery.error ? <NavBar currentUser={null} /> : <NavBar currentUser={currentUserQuery.data.me} />}
+            {currentUserQuery.error}
             <div id="content-wrap">
                 <Link to="/users/63f6c389dadc96cc795852ab">test</Link>
                 <div>
