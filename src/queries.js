@@ -97,6 +97,22 @@ query {
 }
 `
 
+//query to set up a subscription for new posts being added
+export const POST_ADDED = gql`
+subscription PostAdded {
+  postAdded {
+    _id
+    userId
+    title
+    ingredients
+    steps
+    tags
+    date
+    likes
+  }
+}
+`
+
 
 // export const FIND_USER_BY_ID = gql`
 // query findUserById($id: String!) {

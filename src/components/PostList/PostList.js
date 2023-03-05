@@ -6,8 +6,10 @@ const PostList = ({posts}) => {
         <div className='list'>
         {posts.map(post =>
             <div className='post' key={post._id}>
-                Title: {post.title}<br />
-                Ingredients:
+                <h2>{post.title}</h2>
+                Likes: {post.likes}<br />
+                Tags: {post.tags.toString()}
+                {/* Ingredients:
                 <ul>
                     {post.ingredients.map(ingredient => 
                         <li key={ingredient}>
@@ -22,8 +24,7 @@ const PostList = ({posts}) => {
                             {step}
                         </li>
                     )}
-                </ol>
-                Tags: {post.tags.toString()}
+                </ol> */}
             </div>
         )}
         </div>

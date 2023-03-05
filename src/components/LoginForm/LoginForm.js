@@ -35,19 +35,21 @@ const LoginForm = ({setToken, setMe}) => {
 
     //save token to local storage and App component state after server responds to mutation
     useEffect(() => {
+        console.log("login useEffect hit")
         if (result.data) {
             const token = result.data.login.value
             setToken(token)
+            console.log("saving token to localstorage: ", token)
             localStorage.setItem("ChefsClub-Token", token)
         }
     }, [result.data])
 
     //invoke the login mutation with the email and password entered by the user
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault()
         console.log("deez be the values entered: ", email, password)
-        await login({variables: {email, password}})
-        await getUserData()
+        login({variables: {email, password}})
+        getUserData()
         navigate("/", {replace: true})
     }
 

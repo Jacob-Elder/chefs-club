@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Routes, Route, Link} from 'react-router-dom'
-import { useQuery, useLazyQuery } from '@apollo/client'
-import { GET_CURRENT_USER } from '../../queries'
+import { useQuery, useLazyQuery, useSubscription } from '@apollo/client'
+import { GET_CURRENT_USER, POST_ADDED } from '../../queries'
 import NavBar from "../navbar/NavBar.js"
 import Footer from "../footer/Footer.js"
 import Home from "../home/Home.js"
@@ -26,6 +26,12 @@ const App = () => {
             if (data.me) {
                 setMe({...data.me})
             }
+        }
+    })
+
+    useSubscription(POST_ADDED, {
+        onData: (result) => {
+            console.log(result.data.data.postAdded)
         }
     })
 
