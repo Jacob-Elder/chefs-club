@@ -26,6 +26,7 @@ const typeDefs = `
 
     type Query {
         allPosts: [Post!]
+        getPost(_id: ID!) : Post
         topPosts: [Post!]
         newPosts: [Post!]
         getUserData(_id: ID!) : User

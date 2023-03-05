@@ -6,6 +6,7 @@ import NavBar from "../navbar/NavBar.js"
 import Footer from "../footer/Footer.js"
 import Home from "../home/Home.js"
 import UserProfile from '../userProfile/userPofile.js'
+import Post from '../Post/Post.js'
 import LoginForm from '../loginForm/LoginForm.js'
 import "./App.css"
 
@@ -67,6 +68,7 @@ const App = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/signup" element={<h2>Sign Up</h2>} />
+                        <Route path="/posts/:id" element={<Post />} />
                         <Route path="/users/:id" element={<UserProfile />} />
                         <Route path="*" element={<h2>Page Not Found</h2>} />
                     </Routes>

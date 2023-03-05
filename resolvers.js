@@ -41,6 +41,13 @@ const resolvers = {
             throw err;
           })
       },
+      getPost: (root, args) => {
+        //get a single post based on ID
+        return Post.findOne({_id: args._id})
+          .then(result => {
+            return result
+          })
+      },
       getUserData: (root, args) => {
         //get user data based on ID
         console.log("trying to find user with ID: ", args._id)

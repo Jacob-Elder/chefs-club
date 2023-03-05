@@ -70,6 +70,22 @@ mutation login($email: String!, $password: String!) {
 }
 `
 
+//query to get a single post by ID
+export const GET_POST = gql`
+  query getPost($_id: ID!) {
+    getPost(_id: $_id) {
+      _id
+      userId
+      title
+      ingredients
+      steps
+      tags
+      date
+      likes
+    }
+  }
+`
+
 //query to get a user's profile by ID
 export const GET_USER_PROFILE = gql`
   query getUserData($_id: ID!) {
