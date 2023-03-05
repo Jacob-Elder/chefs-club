@@ -2,6 +2,9 @@ const {GraphQLError} = require('graphql')
 const jwt = require('jsonwebtoken')
 const User = require("./models/user.js")
 const Post = require("./models/post.js")
+//include depencencies for subscriptions
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
 
 const resolvers = {
     Query: {
@@ -125,9 +128,17 @@ const resolvers = {
             }
           })
         }
+        //send new post to subscribers
+        pubsub.publish('POST_ADDED', {postAdded: newPost})
         //return new post to the client
         return newPost
       }
+    },
+    Subscription: {
+        //save info about all clients that subscribe to an iterator object called POST_ADDED
+        postAdded: {
+            subscribe: () => pubsub.asyncIterator('POST_ADDED')
+        }
     }
   }
 
