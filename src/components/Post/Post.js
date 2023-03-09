@@ -20,7 +20,7 @@ const Post = () => {
 
     return (
         <>
-        <h2>{postData.data.getPost.title}'s Profile</h2>
+        <h2>{postData.data.getPost.title}</h2>
         Ingredients:
         <ul>
             {postData.data.getPost.ingredients.map(ingredient => 

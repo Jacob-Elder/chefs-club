@@ -15,9 +15,9 @@ const Home = () => {
     return (
         <div className="home">
             <h2>Most Liked Recipes</h2>
-            <PostList posts={posts.data.topPosts} />
+            <PostList className="postlist" posts={posts.data.topPosts} />
             <h2>Newly Posted Recipes</h2>
-            <PostList posts={posts.data.newPosts} />
+            <PostList className="postlist" posts={posts.data.newPosts} />
         </div>
     )
 }
