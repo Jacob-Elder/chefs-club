@@ -32,7 +32,12 @@
   "dependencies": {
     "@apollo/client": "^3.7.8",
     "@apollo/server": "^4.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@graphql-tools/schema": "^9.0.16",
+    "babel-plugin-macros": "^3.1.0",
     "bcrypt": "^5.1.0",
     "core-js": "^3.28.0",
     "cors": "^2.8.5",
