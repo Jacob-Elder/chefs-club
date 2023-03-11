@@ -20,10 +20,12 @@ const App = () => {
     const [me, setMe] = useState(null)
     const [loadingQuery, setLoadingQuery] = useState(true)
 
+    //try to auto login with localstorage token when the app loads
     const currentUserQuery = useQuery(GET_CURRENT_USER, {
         notifyOnNetworkStatusChange: true,
         onCompleted: (data) => {
             console.log("user query completed", data)
+            setLoadingQuery(false)
             if (data.me) {
                 setMe({...data.me})
             }
@@ -36,14 +38,14 @@ const App = () => {
     //     }
     // })
 
-    useEffect(() => {
-        console.log("token has been updated")
-        setLoadingQuery(false)
-        //if token exists make query to get current user's data
-        return (() => {
-            setLoadingQuery(true)
-        })
-    }, [token])
+    // useEffect(() => {
+    //     console.log("token has been updated")
+    //     setLoadingQuery(false)
+    //     //if token exists make query to get current user's data
+    //     return (() => {
+    //         setLoadingQuery(true)
+    //     })
+    // }, [token])
 
 
 

@@ -20,7 +20,6 @@ const authLink = setContext( async (_, { headers }) => {
     return {
         headers: {
             ...headers,
-            //authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphY29iZWxkZXJvbmx5QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVsZGVyOTYiLCJfaWQiOiI2M2Y2YzM4OWRhZGM5NmNjNzk1ODUyYWIiLCJpYXQiOjE2NzcxOTM2MDl9.p91t5IHzgYEIM3LRbZhabs3DiZeekSUDUAnpJsXJ344`,
             authorization: token ? `Bearer ${token}` : null,
         }
     }
@@ -32,29 +31,29 @@ const httpLink = createHttpLink({
 })
 console.log("this is the backend url", BACKEND_URL)
 //websocket url is same as backend url but with "ws" instead of "http"
-const WS_URL = BACKEND_URL.replace("http", "ws")
+// const WS_URL = BACKEND_URL.replace("http", "ws")
 
-const wsLink = new GraphQLWsLink(
-createClient({ url: WS_URL })
-)
+// const wsLink = new GraphQLWsLink(
+// createClient({ url: WS_URL })
+// )
 
 //app must have both an http and a WebSocket connection to the GraphQL server
-const splitLink = split(
-({ query }) => {
-    const definition = getMainDefinition(query)
-    return (
-    definition.kind === 'OperationDefinition' &&
-    definition.operation === 'subscription'
-    )
-},
-wsLink,
-authLink.concat(httpLink)
-)
+// const splitLink = split(
+// ({ query }) => {
+//     const definition = getMainDefinition(query)
+//     return (
+//     definition.kind === 'OperationDefinition' &&
+//     definition.operation === 'subscription'
+//     )
+// },
+// wsLink,
+// authLink.concat(httpLink)
+// )
 
 //create apollo client to interact with apollo server
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: splitLink
+    link: authLink.concat(httpLink)
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
