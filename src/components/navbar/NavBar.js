@@ -32,7 +32,7 @@ const NavBar = ({currentUser, setToken, setMe}) => {
                     <Nav>
                         <NavDropdown title={`${currentUser.username}`} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={() => navigate("/myprofile")}>My Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Make Post</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/createpost")}>Create Post</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                         </NavDropdown>

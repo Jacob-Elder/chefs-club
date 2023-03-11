@@ -1,0 +1,25 @@
+.createPost {
+    width : 100%;
+    text-align: center;
+}
+
+.formBox {
+    width : 80%;
+    margin: 0 auto 2%;
+    background-color: gray;
+    text-align: center;
+    padding: 2em;
+}
+
+input {
+    width: 60%;
+    border: 1px solid black;
+}
+
+.formBox input {
+    width: 80%;
+}
+
+.plus {
+    color: green;
+}

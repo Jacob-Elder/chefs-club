@@ -7,6 +7,7 @@ import Footer from "../footer/Footer.js"
 import Home from "../home/Home.js"
 import UserProfile from '../userProfile/userPofile.js'
 import MyProfile from '../myProfile/MyProfile.js'
+import CreatePost from '../createPost/CreatePost.js'
 import Post from '../Post/Post.js'
 import LoginForm from '../loginForm/LoginForm.js'
 import SignupForm from '../signupForm/SignupForm.js'
@@ -59,6 +60,7 @@ const App = () => {
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/signup" element={<SignupForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/myprofile" element={<MyProfile />} />
+                        <Route path="/createpost" element={<CreatePost />} />
                         <Route path="/posts/:id" element={<Post />} />
                         <Route path="/users/:id" element={<UserProfile />} />
                         <Route path="*" element={<h2>Page Not Found</h2>} />
