@@ -57,7 +57,7 @@ query NewPosts {
 
 //query to create a new user on signup. Requires email, username, and password
 export const CREATE_USER = gql`
-mutation createUser($email: String!, $username: String!, $password: String!) {
+mutation addUser($email: String!, $username: String!, $password: String!) {
   addUser(
     email: $email
     username: $username

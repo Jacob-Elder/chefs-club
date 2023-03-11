@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {useMutation, useLazyQuery} from "@apollo/client"
-import {LOGIN, GET_CURRENT_USER} from "../../queries.js"
+import {LOGIN, CREATE_USER, GET_CURRENT_USER} from "../../queries.js"
 import "./SignupForm.css"
 import ErrorMessage from '../errorMessage/ErrorMessage.js'
 
@@ -24,6 +24,27 @@ const SignupForm = ({setToken, setMe}) => {
         }
     })
 
+    //addUser mutation that stores server response in 'signupResult' variable
+    const [signup, signupResult] = useMutation(CREATE_USER, {
+        onCompleted: (data) => {
+            //console.log(data)
+        },
+        onError: (error) => {
+            setError(error.graphQLErrors[0].message)
+        }
+    })
+
+    //perform neccessary actions after signup mutation
+    useEffect(() => {
+        if (signupResult.data) {
+            console.log("server response from signup mutation: ", signupResult.data)
+            //set current user state in App component
+            setMe(signupResult.data.addUser)
+            //invoke login mutation to get token
+            login({variables: {email, password}})
+        }
+    }, [signupResult.data])
+
     //create login mutation that stores server response in 'result' variable
     const [login, result] = useMutation(LOGIN, {
         onCompleted: (data) => {
@@ -34,23 +55,30 @@ const SignupForm = ({setToken, setMe}) => {
         }
     })
 
+    const loginHelper = async () => {
+        const token = result.data.login.value
+        setToken(token)
+        console.log("saving token to localstorage: ", token)
+        await localStorage.setItem("ChefsClub-Token", token)
+        navigate("/", {replace: true})
+    }
+
     //save token to local storage and App component state after server responds to mutation
     useEffect(() => {
-        console.log("login useEffect hit")
         if (result.data) {
-            const token = result.data.login.value
-            setToken(token)
-            console.log("saving token to localstorage: ", token)
-            localStorage.setItem("ChefsClub-Token", token)
-            navigate("/", {replace: true})
+            loginHelper()
+        }
+        return () => {
+            //cleanup
         }
     }, [result.data])
+
 
     //invoke the login mutation with the email and password entered by the user
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log("deez be the values entered: ", email, password)
-        login({variables: {email, password}})
+        console.log("deez be the values entered: ", email, username, password)
+        signup({variables: {email, username, password}})
     }
 
     return (

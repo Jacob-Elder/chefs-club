@@ -16,7 +16,6 @@ import 'regenerator-runtime/runtime.js'
 //web token stored in local storage should be passed to the server with each request
 const authLink = setContext( async (_, { headers }) => {
     const token = await localStorage.getItem("ChefsClub-Token")
-    console.log("this is the token", token)
     return {
         headers: {
             ...headers,

@@ -70,7 +70,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
-                        <Route path="/signup" element={<SignupForm />} />
+                        <Route path="/signup" element={<SignupForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/posts/:id" element={<Post />} />
                         <Route path="/users/:id" element={<UserProfile />} />
                         <Route path="*" element={<h2>Page Not Found</h2>} />

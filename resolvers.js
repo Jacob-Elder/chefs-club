@@ -84,7 +84,7 @@ const resolvers = {
         try {
           await newUser.save()
         } catch (error) {
-          throw new GraphQLError("Saving New User Failed", {
+          throw new GraphQLError("Email or Username already taken", {
             extensions: {
               code: "BAD_USER_INPUT",
               invalidArgs: args.username,
