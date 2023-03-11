@@ -16,12 +16,14 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     userPosts: [{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
         default: []
     }],
     likedPosts: [{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
         default: []
     }]

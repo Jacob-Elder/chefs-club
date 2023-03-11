@@ -30,11 +30,11 @@ const App = () => {
         }
     })
 
-    useSubscription(POST_ADDED, {
-        onData: (result) => {
-            console.log(result.data.data.postAdded)
-        }
-    })
+    // useSubscription(POST_ADDED, {
+    //     onData: (result) => {
+    //         console.log(result.data.data.postAdded)
+    //     }
+    // })
 
     useEffect(() => {
         console.log("token has been updated")

@@ -2,7 +2,7 @@ const typeDefs = `
 
     type Post {
         _id: ID!
-        userId: ID!
+        user: User
         title: String!
         ingredients: [String!]
         steps: [String!]

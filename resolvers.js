@@ -4,12 +4,22 @@ const User = require("./models/user.js")
 const Post = require("./models/post.js")
 //include depencencies for subscriptions
 const { PubSub } = require('graphql-subscriptions')
+const { default: mongoose } = require('mongoose')
 const pubsub = new PubSub()
 
 const resolvers = {
+    //field resolver to get User associated with each post
+    Post: {
+      user: async (parent) => {
+        const user = await User.findOne({_id: parent.user})
+        return user
+      }
+    },
+    //query resolvers
     Query: {
       allPosts: (root, args) => {
         //get all posts from MongoDB
+        console.log("post.find")
         return Post.find()
           .then(posts => {
             return posts
@@ -23,6 +33,7 @@ const resolvers = {
         //get top 5 most liked posts
         return Post.find().sort({likes: -1}).limit(5)
           .then(posts => {
+            console.log("top posts: ", posts)
             return posts
           })
           .catch(err => {
@@ -34,6 +45,7 @@ const resolvers = {
         //get top 5 newest posts
         return Post.find().sort({date: -1}).limit(5)
           .then(posts => {
+            console.log("newest posts: ", posts)
             return posts
           })
           .catch(err => {
@@ -62,6 +74,7 @@ const resolvers = {
         return context.currentUser
       }
     },
+    //mutation resolvers
     Mutation: {
       addUser: async (root, args) => {
         //hash the given password and create new User
@@ -119,7 +132,7 @@ const resolvers = {
         //create a new Post using the args passed from the client
         const newPost = new Post({
           ...args,
-          userId: currentUser._id,
+          user: new mongoose.Types.ObjectId(currentUser._id),
           date: Date.now(),
           likes: 0
         })
@@ -136,7 +149,7 @@ const resolvers = {
           })
         }
         //send new post to subscribers
-        pubsub.publish('POST_ADDED', {postAdded: newPost})
+        //pubsub.publish('POST_ADDED', {postAdded: newPost})
         //return new post to the client
         return newPost
       }

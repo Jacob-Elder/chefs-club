@@ -14,11 +14,13 @@ import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
 
 //web token stored in local storage should be passed to the server with each request
-const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem("ChefsClub-Token")
+const authLink = setContext( async (_, { headers }) => {
+    const token = await localStorage.getItem("ChefsClub-Token")
+    console.log("this is the token", token)
     return {
         headers: {
             ...headers,
+            //authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphY29iZWxkZXJvbmx5QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVsZGVyOTYiLCJfaWQiOiI2M2Y2YzM4OWRhZGM5NmNjNzk1ODUyYWIiLCJpYXQiOjE2NzcxOTM2MDl9.p91t5IHzgYEIM3LRbZhabs3DiZeekSUDUAnpJsXJ344`,
             authorization: token ? `Bearer ${token}` : null,
         }
     }
@@ -28,7 +30,7 @@ const authLink = setContext((_, { headers }) => {
 const httpLink = createHttpLink({
     uri: BACKEND_URL
 })
-
+console.log("this is the backend url", BACKEND_URL)
 //websocket url is same as backend url but with "ws" instead of "http"
 const WS_URL = BACKEND_URL.replace("http", "ws")
 

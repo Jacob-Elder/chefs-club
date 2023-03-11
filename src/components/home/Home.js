@@ -6,7 +6,14 @@ import PostList from "../postList/PostList.js"
 
 const Home = () => {
 
-    const posts = useQuery(TOP_AND_NEW_POSTS)
+    const posts = useQuery(TOP_AND_NEW_POSTS, {
+        onCompleted: (data) => {
+            console.log(data)
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
     
     if (posts.loading) {
         return <div>loading...</div>

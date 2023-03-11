@@ -15,9 +15,28 @@ query {
   }
 }
 `
-
+//get 5 most liked and 5 newest posts for the homepage
 export const TOP_AND_NEW_POSTS = gql`
-query {
+query NewPosts {
+  newPosts {
+    _id
+    userId
+    date
+    ingredients
+    likes
+    steps
+    tags
+    title
+    user {
+      _id
+      email
+      username
+      password
+      userPosts
+      likedPosts
+    }
+    userId
+  }
   topPosts {
     _id
     userId
@@ -27,16 +46,14 @@ query {
     tags
     date
     likes
-  }
-  newPosts {
-    _id
-    userId
-    title
-    ingredients
-    steps
-    tags
-    date
-    likes
+    user {
+      _id
+      email
+      username
+      password
+      userPosts
+      likedPosts
+    }
   }
 }
 `
