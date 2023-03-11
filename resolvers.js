@@ -1,5 +1,6 @@
 const {GraphQLError} = require('graphql')
 const jwt = require('jsonwebtoken')
+const bcrypt = require("bcrypt")
 const User = require("./models/user.js")
 const Post = require("./models/post.js")
 //include depencencies for subscriptions
@@ -33,7 +34,6 @@ const resolvers = {
         //get top 5 most liked posts
         return Post.find().sort({likes: -1}).limit(5)
           .then(posts => {
-            console.log("top posts: ", posts)
             return posts
           })
           .catch(err => {
@@ -45,7 +45,6 @@ const resolvers = {
         //get top 5 newest posts
         return Post.find().sort({date: -1}).limit(5)
           .then(posts => {
-            console.log("newest posts: ", posts)
             return posts
           })
           .catch(err => {

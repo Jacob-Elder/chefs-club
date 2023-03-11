@@ -116,24 +116,23 @@ startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async ({req, res}) => {
     //data loader to batch user IDs into a single query
+    let userLoaderResult = null
     const userLoader = new DataLoader(async keys => {
       const users = await User.find({_id : { $in: keys}})
       const userMap = {}
       users.forEach(user => {
         userMap[user._id] = user
       })
-      console.log("keys: ", keys)
-      const userLoaderResult = keys.map(key => userMap[key])
-      console.log("user Loader result: ", userLoaderResult)
-      return userLoaderResult
+      userLoaderResult = keys.map(key => userMap[key])
     })
     //check for auth header from client
     const auth = req ? req.headers.authorization : null
+    let currentUser = null
     if (auth && auth.startsWith('Bearer ')) {
       const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
-      const currentUser = await User.findOne({_id : decodedToken._id})
-      return { currentUser }
+      currentUser = await User.findOne({_id : decodedToken._id})
     }
+    return {currentUser, userLoaderResult}
   }
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)

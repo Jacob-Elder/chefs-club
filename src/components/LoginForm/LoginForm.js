@@ -41,6 +41,7 @@ const LoginForm = ({setToken, setMe}) => {
             setToken(token)
             console.log("saving token to localstorage: ", token)
             localStorage.setItem("ChefsClub-Token", token)
+            navigate("/", {replace: true})
         }
     }, [result.data])
 
@@ -49,8 +50,6 @@ const LoginForm = ({setToken, setMe}) => {
         event.preventDefault()
         console.log("deez be the values entered: ", email, password)
         login({variables: {email, password}})
-        getUserData()
-        navigate("/", {replace: true})
     }
 
     return (
