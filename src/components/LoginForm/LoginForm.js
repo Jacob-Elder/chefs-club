@@ -33,15 +33,20 @@ const LoginForm = ({setToken, setMe}) => {
         }
     })
 
+    //async function to save token to local storage after login
+    const loginHelper = async () => {
+        const token = result.data.login.value
+        setToken(token)
+        console.log("saving token to localstorage: ", token)
+        await localStorage.setItem("ChefsClub-Token", token)
+        navigate("/", {replace: true})
+    }
+
     //save token to local storage and App component state after server responds to mutation
     useEffect(() => {
         console.log("login useEffect hit")
         if (result.data) {
-            const token = result.data.login.value
-            setToken(token)
-            console.log("saving token to localstorage: ", token)
-            localStorage.setItem("ChefsClub-Token", token)
-            navigate("/", {replace: true})
+            loginHelper()
         }
     }, [result.data])
 

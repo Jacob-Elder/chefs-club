@@ -6,6 +6,7 @@ import NavBar from "../navbar/NavBar.js"
 import Footer from "../footer/Footer.js"
 import Home from "../home/Home.js"
 import UserProfile from '../userProfile/userPofile.js'
+import MyProfile from '../myProfile/MyProfile.js'
 import Post from '../Post/Post.js'
 import LoginForm from '../loginForm/LoginForm.js'
 import SignupForm from '../signupForm/SignupForm.js'
@@ -31,7 +32,7 @@ const App = () => {
                 setMe({...data.me})
             }
         }
-    })
+    }, [])
 
     // useSubscription(POST_ADDED, {
     //     onData: (result) => {
@@ -39,19 +40,6 @@ const App = () => {
     //     }
     // })
 
-    // useEffect(() => {
-    //     console.log("token has been updated")
-    //     setLoadingQuery(false)
-    //     //if token exists make query to get current user's data
-    //     return (() => {
-    //         setLoadingQuery(true)
-    //     })
-    // }, [token])
-
-
-
-    console.log(currentUserQuery.error)
-    console.log("me: ", me)
 
     if (loadingQuery === true) {
         return (
@@ -65,12 +53,12 @@ const App = () => {
             <NavBar currentUser={me} setToken={setToken} setMe={setMe} />
             {currentUserQuery.error}
             <div id="content-wrap">
-                <Link to="/users/63f6c389dadc96cc795852ab">test</Link>
                 <div>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/signup" element={<SignupForm setToken={setToken} setMe={setMe} />} />
+                        <Route path="/myprofile" element={<MyProfile />} />
                         <Route path="/posts/:id" element={<Post />} />
                         <Route path="/users/:id" element={<UserProfile />} />
                         <Route path="*" element={<h2>Page Not Found</h2>} />

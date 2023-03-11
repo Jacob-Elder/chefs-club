@@ -7,8 +7,6 @@ import { useApolloClient } from '@apollo/client'
 
 const NavBar = ({currentUser, setToken, setMe}) => {
 
-    console.log("current user prop in navbar", currentUser)
-
     const client = useApolloClient()
     const navigate = useNavigate()
 
@@ -33,7 +31,7 @@ const NavBar = ({currentUser, setToken, setMe}) => {
                     </Nav>
                     <Nav>
                         <NavDropdown title={`${currentUser.username}`} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.2">My Profile</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/myprofile")}>My Profile</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Make Post</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>

@@ -55,6 +55,7 @@ const SignupForm = ({setToken, setMe}) => {
         }
     })
 
+    //async function to save token to local storage after login
     const loginHelper = async () => {
         const token = result.data.login.value
         setToken(token)
