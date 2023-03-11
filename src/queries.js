@@ -20,7 +20,6 @@ export const TOP_AND_NEW_POSTS = gql`
 query NewPosts {
   newPosts {
     _id
-    userId
     date
     ingredients
     likes
@@ -35,11 +34,9 @@ query NewPosts {
       userPosts
       likedPosts
     }
-    userId
   }
   topPosts {
     _id
-    userId
     title
     ingredients
     steps
@@ -92,13 +89,16 @@ export const GET_POST = gql`
   query getPost($_id: ID!) {
     getPost(_id: $_id) {
       _id
-      userId
       title
       ingredients
       steps
       tags
       date
       likes
+      user {
+        _id
+        username
+      }
     }
   }
 `
