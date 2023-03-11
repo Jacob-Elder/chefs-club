@@ -4,9 +4,9 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, split} from '@apollo/client'
 import {setContext} from "@apollo/client/link/context"
 //import dependencies needed for subscriptions
-import { getMainDefinition } from '@apollo/client/utilities'
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
-import { createClient } from 'graphql-ws'
+// import { getMainDefinition } from '@apollo/client/utilities'
+// import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+// import { createClient } from 'graphql-ws'
 
 import App from "./components/app/App.js"
 //core-js and regenerator-runtime so async/await works on older browsers (IE)
@@ -29,7 +29,7 @@ const authLink = setContext( async (_, { headers }) => {
 const httpLink = createHttpLink({
     uri: BACKEND_URL
 })
-console.log("this is the backend url", BACKEND_URL)
+
 //websocket url is same as backend url but with "ws" instead of "http"
 // const WS_URL = BACKEND_URL.replace("http", "ws")
 

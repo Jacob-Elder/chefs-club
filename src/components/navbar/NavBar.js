@@ -32,16 +32,11 @@ const NavBar = ({currentUser, setToken, setMe}) => {
                         </Nav.Link>
                     </Nav>
                     <Nav>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                        <NavDropdown title={`${currentUser.username}`} id="basic-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.2">My Profile</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Make Post</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
