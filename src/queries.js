@@ -115,6 +115,16 @@ export const GET_POST = gql`
   }
 `
 
+//mutation to like a post
+export const LIKE_POST = gql`
+mutation likePost($_id: ID!) {
+  likePost(_id: $_id) {
+    _id
+    title
+  }
+}
+`
+
 //query to get a user's profile by ID
 export const GET_USER_PROFILE = gql`
   query getUserData($_id: ID!) {

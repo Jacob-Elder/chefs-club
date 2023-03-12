@@ -127,48 +127,66 @@ const resolvers = {
         return {value: jwt.sign(userForToken, process.env.SECRET)}
       },
       addPost: async (root, args, context) => {
-        try {
-          //get the current user
-          const currentUser = context.currentUser
-          //throw an error if not logged in
-          if (!currentUser) {
-            throw new GraphQLError("Must be logged in to post", {
-              extensions: {
-                code: 'BAD_USER_INPUT'
-              }
-            })
-          }
-          //create a new Post using the args passed from the client
-          const newPost = new Post({
-            ...args,
-            user: new mongoose.Types.ObjectId(currentUser._id),
-            date: Date.now(),
-            likes: 0
+        //get the current user
+        const currentUser = context.currentUser
+        //throw an error if not logged in
+        if (!currentUser) {
+          throw new GraphQLError("Must be logged in to post", {
+            extensions: {
+              code: 'BAD_USER_INPUT'
+            }
           })
-          //save the new post to DB
-          try {
-            await newPost.save()
-          }
-          catch (error) {
-            throw new GraphQLError("saving new post failed", {
-              extensions: {
-                code: "BAD_USER_INPUT",
-                error
-              }
-            })
-          }
-          //add post id to user's posts
-          let user = await User.findById(currentUser._id)
-          console.log("found user to update: ", user)
-          user.userPosts.push(newPost._id)
-          await user.save()
-          //send new post to subscribers
-          //pubsub.publish('POST_ADDED', {postAdded: newPost})
-          //return new post to the client
-          return newPost
-        } catch (error) {
-          console.log("server error: ", error)
         }
+        //create a new Post using the args passed from the client
+        const newPost = new Post({
+          ...args,
+          user: new mongoose.Types.ObjectId(currentUser._id),
+          date: Date.now(),
+          likes: 0
+        })
+        //save the new post to DB
+        try {
+          await newPost.save()
+        }
+        catch (error) {
+          throw new GraphQLError("saving new post failed", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+              error
+            }
+          })
+        }
+        //add post id to user's posts
+        let user = await User.findById(currentUser._id)
+        console.log("found user to update: ", user)
+        user.userPosts.push(newPost._id)
+        await user.save()
+        //send new post to subscribers
+        //pubsub.publish('POST_ADDED', {postAdded: newPost})
+        //return new post to the client
+        return newPost
+      },
+      likePost: async (root, args, context) => {
+        //get the current user
+        const currentUser = context.currentUser
+        //throw an error if not logged in
+        if (!currentUser) {
+          throw new GraphQLError("Must be logged in to post", {
+            extensions: {
+              code: 'BAD_USER_INPUT'
+            }
+          })
+        }
+        //update likes count on post
+        let post = await Post.findById(args._id)
+        post.likes = post.likes + 1
+        await post.save()
+        //add post ID to user's liked posts
+        let user = await User.findById(currentUser._id)
+        user.likedPosts.push(args._id)
+        await user.save()
+        //return post
+        return post
       }
     },
     Subscription: {

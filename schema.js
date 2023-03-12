@@ -49,6 +49,9 @@ const typeDefs = `
         steps : [String!]!
         tags : [String!]!
       ) : Post
+      likePost(
+        _id : ID!
+      ) : Post
     }
 
     type Subscription {
