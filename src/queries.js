@@ -84,6 +84,20 @@ mutation login($email: String!, $password: String!) {
 }
 `
 
+//mutation to create a new post
+export const CREATE_POST = gql`
+mutation addPost($title: String!, $ingredients: [String!]!, $steps: [String!]!, $tags: [String!]!) {
+  addPost(
+    title: $title
+    ingredients: $ingredients
+    steps: $steps
+    tags: $tags
+  ) {
+    _id
+  }
+}
+`
+
 //query to get a single post by ID
 export const GET_POST = gql`
   query getPost($_id: ID!) {

@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
 import ReactDOM from 'react-dom/client'
 import {useNavigate, Link} from 'react-router-dom'
-import {useMutation, useLazyQuery} from "@apollo/client"
-import {LOGIN, GET_CURRENT_USER} from "../../queries.js"
+import {useMutation} from "@apollo/client"
+import {CREATE_POST} from "../../queries.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import "./CreatePost.css"
@@ -16,14 +16,38 @@ const CreatePost = () => {
     const [tagList, setTagList] = useState([{tag: ''}])
     const [error, setError] = useState("")
 
+    const navigate = useNavigate()
+
+    //create mutation to execute addPost
+    const [addPost, addPostResult] = useMutation(CREATE_POST, {
+        onCompleted: (data) => {
+        },
+        onError: (error) => {
+            console.log(error)
+            setError(error.graphQLErrors[0].message)
+        }
+    })
+
+    //perform necessary actions after appPost mutation returns
+    useEffect(() => {
+        console.log("addPost useEffect hit")
+        if (addPostResult.data) {
+            console.log("addPost mutation complete", addPostResult.data)
+            //navigate to the post's page
+            navigate(`/posts/${addPostResult.data.addPost._id}`, {replace: true})
+        }
+    }, [addPostResult.data])
+
     const handleSubmit = (event) => {
         event.preventDefault()
+        console.log("title: ", title)
         const ingredients = ingredientList.map(item => item.ingredient)
         console.log("ingredients array: ", ingredients)
         const steps = stepList.map(item => item.step)
         console.log("steps array: ", steps)
         const tags = tagList.map(item => item.tag)
         console.log("tags array: ", tags)
+        addPost({variables: {title, ingredients, steps, tags}})
     }
 
     //helper functions for ingredient list
