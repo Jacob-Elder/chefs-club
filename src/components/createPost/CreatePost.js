@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import ReactDOM from 'react-dom/client'
 import {useNavigate, Link} from 'react-router-dom'
 import {useMutation} from "@apollo/client"
-import {CREATE_POST} from "../../queries.js"
+import {CREATE_POST, GET_CURRENT_USER} from "../../queries.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import "./CreatePost.css"
@@ -20,6 +20,9 @@ const CreatePost = () => {
 
     //create mutation to execute addPost
     const [addPost, addPostResult] = useMutation(CREATE_POST, {
+        refetchQueries: [
+            {query: GET_CURRENT_USER}
+        ],
         onCompleted: (data) => {
         },
         onError: (error) => {
