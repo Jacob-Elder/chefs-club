@@ -2,6 +2,8 @@ import React, {useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
 import ccLogo from "../../assets/images/logo_white.png"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import "./NavBar.css"
 import { useApolloClient } from '@apollo/client'
 
@@ -30,6 +32,9 @@ const NavBar = ({currentUser, setToken, setMe}) => {
                         </Nav.Link>
                     </Nav>
                     <Nav>
+                        <Nav.Link href="#" as="span">
+                            <Link className='link' to="/search"><FontAwesomeIcon size="1x" icon={faMagnifyingGlass} /> Search</Link>
+                        </Nav.Link>
                         <NavDropdown title={`${currentUser.username}`} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={() => navigate("/myprofile")}>My Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/createpost")}>Create Post</NavDropdown.Item>
@@ -52,6 +57,9 @@ const NavBar = ({currentUser, setToken, setMe}) => {
                     </Nav.Link>
                 </Nav>
                 <Nav>
+                    <Nav.Link href="#" as="span">
+                            <Link className='link' to="/search"><FontAwesomeIcon size="1x" icon={faMagnifyingGlass} /> Search</Link>
+                        </Nav.Link>
                     <Nav.Link href="#" as="span">
                         <Link className='link' to="/login">Login</Link>
                     </Nav.Link>

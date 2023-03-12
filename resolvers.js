@@ -39,6 +39,22 @@ const resolvers = {
             throw err;
           })
       },
+      searchPosts: (root, args) => {
+        //find posts with given tag and sort by likes
+        return Post.find({ tags: args.tag}).sort({likes: -1})
+          .then(posts => {
+            return posts
+          })
+          .catch(err => {
+            throw new GraphQLError("Error Searching for Posts", {
+              extensions: {
+                code: "BAD_USER_INPUT",
+                invalidArgs: args.tag,
+                error
+              }
+            })
+          })
+      },
       topPosts: (root, args) => {
         //get top 5 most liked posts
         return Post.find().sort({likes: -1}).limit(5)

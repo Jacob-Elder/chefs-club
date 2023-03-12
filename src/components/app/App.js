@@ -11,6 +11,7 @@ import CreatePost from '../createPost/CreatePost.js'
 import Post from '../Post/Post.js'
 import LoginForm from '../loginForm/LoginForm.js'
 import SignupForm from '../signupForm/SignupForm.js'
+import Search from '../search/Search.js'
 import "./App.css"
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
                 <div>
                     <Routes>
                         <Route path="/" element={<Home currentUser={me} />} />
+                        <Route path="/search" element={<Search currentUser={me} />} />
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/signup" element={<SignupForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/myprofile" element={<MyProfile />} />

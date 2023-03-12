@@ -114,6 +114,21 @@ export const GET_POST = gql`
     }
   }
 `
+//query to seach for posts by tag
+export const SEARCH_POSTS_BY_TAG = gql`
+  query searchPosts($tag: String!) {
+    searchPosts(tag: $tag) {
+      _id
+      title
+      likes
+      tags
+      user {
+        _id
+        username
+      }
+    }
+  }
+`
 
 //mutation to like a post
 export const LIKE_POST = gql`
