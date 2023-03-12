@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require("webpack")
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const config = (env, argv) => {
   console.log("argv.mode = ", argv.mode)
@@ -17,6 +18,7 @@ const config = (env, argv) => {
     devServer: {
       static: path.resolve(__dirname, 'build'),
       compress: true,
+      historyApiFallback: true,
       port: 3000
     },
     devtool: 'source-map',
