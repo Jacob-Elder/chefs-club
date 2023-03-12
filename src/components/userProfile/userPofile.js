@@ -2,6 +2,9 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import {useParams} from 'react-router-dom'
 import { GET_USER_PROFILE } from '../../queries'
+import {Link} from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import "./userProfile.css"
 
 const userProfile = () => {
@@ -19,7 +22,21 @@ const userProfile = () => {
     }
 
     return (
-        <h2>{userData.data.getUserData.username}'s Profile</h2>
+        <div className='profile'>
+            <h2>{userData.data.getUserData.username}'s Profile</h2>
+            {userData.data.getUserData.userPosts.map(post =>
+                <div className='post' key={post._id}>
+                    <div>
+                        <FontAwesomeIcon size="2x" icon={faThumbsUp} className="thumb" /><br />
+                        {post.likes}
+                    </div>
+                    <div>
+                        <Link to={`/posts/${post._id}`}  className="link">{post.title}</Link><br />
+                    </div>
+                    <div></div>
+                </div>
+            )}
+        </div>
     )
 
 }

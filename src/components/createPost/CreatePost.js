@@ -112,9 +112,9 @@ const CreatePost = () => {
             <h2>Create New Post</h2>
             <br />
             <form onSubmit={handleSubmit}>
-                Title: <input type="text" name="title" value={title} onChange={(event) => {setTitle(event.target.value)}} /><br />
-                Ingredients:<br />
+                Title: <input type="text" name="title" value={title} onChange={(event) => {setTitle(event.target.value)}} required /><br />
                 <div className='formBox'>
+                    Ingredients:
                     <div id='ingredientInputs'>
                         {ingredientList.map((singleIngredient, index) => (
                             <div key={index}>
@@ -127,8 +127,8 @@ const CreatePost = () => {
                     </div>
                     <FontAwesomeIcon size="2x" icon={faPlusCircle} className="plus" onClick={addIngredientInput} />
                 </div>
-                Steps:<br/>
                 <div className='formBox'>
+                    Steps:
                     <div id='stepInputs'>
                         {stepList.map((singleStep, index) => (
                             <div key={index}>
@@ -141,8 +141,8 @@ const CreatePost = () => {
                     </div>
                     <FontAwesomeIcon size="2x" icon={faPlusCircle} className="plus" onClick={addStepInput} />
                 </div>
-                Tags:<br/>
                 <div className='formBox'>
+                    Tags:
                     <div id='tagInputs'>
                         {tagList.map((singleTag, index) => (
                             <div key={index}>
