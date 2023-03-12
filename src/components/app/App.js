@@ -56,7 +56,7 @@ const App = () => {
             <div id="content-wrap">
                 <div>
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<Home currentUser={me} />} />
                         <Route path="/login" element={<LoginForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/signup" element={<SignupForm setToken={setToken} setMe={setMe} />} />
                         <Route path="/myprofile" element={<MyProfile />} />

@@ -4,7 +4,7 @@ import { TOP_AND_NEW_POSTS } from '../../queries'
 import "./Home.css"
 import PostList from "../postList/PostList.js"
 
-const Home = () => {
+const Home = ({currentUser}) => {
 
     const posts = useQuery(TOP_AND_NEW_POSTS, {
         onCompleted: (data) => {
@@ -22,9 +22,9 @@ const Home = () => {
     return (
         <div className="home">
             <h2>Most Liked Recipes</h2>
-            <PostList className="postlist" posts={posts.data.topPosts} />
+            <PostList className="postlist" posts={posts.data.topPosts} currentUser={currentUser} />
             <h2>Newly Posted Recipes</h2>
-            <PostList className="postlist" posts={posts.data.newPosts} />
+            <PostList className="postlist" posts={posts.data.newPosts} currentUser={currentUser} />
         </div>
     )
 }
