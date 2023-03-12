@@ -27,12 +27,15 @@ const Search = ({currentUser}) => {
         if (searchPostsResult.data) {
             console.log("searchPosts query complete", searchPostsResult.data)
             setSearchResults(searchPostsResult.data.searchPosts)
+            if (searchPostsResult.data.searchPosts.length === 0) {
+                setError("No posts found")
+            }
         }
     }, [searchPostsResult.data])
 
     const handleSearch = (event) => {
         event.preventDefault()
-        console.log("seaching for: ", searchTerm)
+        setError(null)
         searchPosts({variables: {tag: searchTerm}})
     }
 
