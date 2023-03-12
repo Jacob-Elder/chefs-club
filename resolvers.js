@@ -129,7 +129,6 @@ const resolvers = {
               }
             })
           }
-          console.log("args received by server: ", args)
           //create a new Post using the args passed from the client
           const newPost = new Post({
             ...args,
@@ -149,6 +148,11 @@ const resolvers = {
               }
             })
           }
+          //add post id to user's posts
+          let user = await User.findById(currentUser._id)
+          console.log("found user to update: ", user)
+          user.userPosts.push(newPost._id)
+          await user.save()
           //send new post to subscribers
           //pubsub.publish('POST_ADDED', {postAdded: newPost})
           //return new post to the client
