@@ -1,0 +1,28 @@
+.signup {
+    text-align: center;
+}
+
+.signup table {
+    width: 100%
+}
+
+.signup table td {
+    padding-bottom: 2%;
+}
+
+.signup table td:first-child {
+    text-align: right;
+}
+
+.signup table td:nth-child(2) {
+    width: auto;
+    text-align: left;
+    padding-left: 5%;
+}
+
+form {
+    width : 80%;
+    margin: 2% auto;
+    background-color: gray;
+    padding: 2%;
+}

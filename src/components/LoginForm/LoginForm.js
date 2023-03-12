@@ -58,11 +58,21 @@ const LoginForm = ({setToken, setMe}) => {
     }
 
     return (
-        <div>
-            <h2>Login Form</h2>
+        <div className='login'>
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
-                Email: <input type="text" name="email" value={email} onChange={(event) => {setEmail(event.target.value)}} />
-                Password: <input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} />
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input type="text" name="email" value={email} onChange={(event) => {setEmail(event.target.value)}} /></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} /></td>
+                    </tr>
+                    </tbody>
+                </table>
                 <button type="submit">login</button>
             </form>
             {error !== "" ? <ErrorMessage message={error} /> : null}

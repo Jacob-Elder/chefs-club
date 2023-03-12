@@ -83,13 +83,29 @@ const SignupForm = ({setToken, setMe}) => {
     }
 
     return (
-        <div>
+        <div className='signup'>
             <h2>Create Profile</h2>
             <form onSubmit={handleSubmit}>
-                Email: <input type="text" name="email" value={email} onChange={(event) => {setEmail(event.target.value)}} /><br />
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input type="text" name="email" value={email} onChange={(event) => {setEmail(event.target.value)}} /></td>
+                    </tr>
+                    <tr>
+                        <td>Username:</td>
+                        <td><input type="text" name="username" value={username} onChange={(event) => {setUsername(event.target.value)}} /></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td><input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} /></td>
+                    </tr>
+                    </tbody>
+                </table>
+                {/* Email: <input type="text" name="email" value={email} onChange={(event) => {setEmail(event.target.value)}} /><br />
                 Username: <input type="text" name="username" value={username} onChange={(event) => {setUsername(event.target.value)}} /><br />
-                Password: <input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} /><br />
-                <button type="submit">Submit</button>
+                Password: <input type="password" name="password" value={password} onChange={(event) => {setPassword(event.target.value)}} /><br /> */}
+                <button type="submit">Signup</button>
             </form>
             {error !== "" ? <ErrorMessage message={error} /> : null}
             Already have an account? <Link to="/login">Login</Link>

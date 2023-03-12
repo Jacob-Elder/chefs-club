@@ -1,0 +1,28 @@
+.login {
+    text-align: center;
+}
+
+.login table {
+    width: 100%
+}
+
+.login table td {
+    padding-bottom: 2%;
+}
+
+.login table td:first-child {
+    text-align: right;
+}
+
+.login table td:nth-child(2) {
+    width: auto;
+    text-align: left;
+    padding-left: 5%;
+}
+
+form {
+    width : 80%;
+    margin: 2% auto;
+    background-color: gray;
+    padding: 2%;
+}
