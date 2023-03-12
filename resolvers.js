@@ -16,6 +16,15 @@ const resolvers = {
         return user
       }
     },
+    //field resolver to get a user's posts
+    User: {
+      userPosts: async (parent) => {
+        const posts = await Post.find({
+          '_id': {$in: parent.userPosts}
+        })
+        return posts
+      }
+    },
     //query resolvers
     Query: {
       allPosts: (root, args) => {

@@ -5,7 +5,10 @@ export const ALL_POSTS = gql`
 query {
   allPosts {
     _id
-    userId
+    user {
+      _id
+      username
+    }
     title
     ingredients
     steps
@@ -28,11 +31,7 @@ query NewPosts {
     title
     user {
       _id
-      email
       username
-      password
-      userPosts
-      likedPosts
     }
   }
   topPosts {
@@ -45,11 +44,7 @@ query NewPosts {
     likes
     user {
       _id
-      email
       username
-      password
-      userPosts
-      likedPosts
     }
   }
 }
@@ -66,7 +61,10 @@ mutation addUser($email: String!, $username: String!, $password: String!) {
     _id
     email
     username
-    userPosts
+    userPosts {
+      _id
+      title
+    }
     likedPosts
   }
 }
@@ -125,7 +123,15 @@ export const GET_USER_PROFILE = gql`
     ) {
       _id
       username
-      userPosts
+      userPosts {
+        _id
+        title
+        ingredients
+        steps
+        tags
+        likes
+        date
+      }
       likedPosts
     }
   }
@@ -138,7 +144,15 @@ query {
     _id
     username
     email
-    userPosts
+    userPosts {
+      _id
+      title
+      ingredients
+      steps
+      tags
+      likes
+      date
+    }
     likedPosts
   }
 }
@@ -149,7 +163,10 @@ export const POST_ADDED = gql`
 subscription PostAdded {
   postAdded {
     _id
-    userId
+    user {
+      _id
+      username
+    }
     title
     ingredients
     steps

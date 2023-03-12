@@ -16,7 +16,7 @@ const typeDefs = `
       email: String!
       username: String!
       password: String!
-      userPosts: [ID!]
+      userPosts: [Post!]
       likedPosts: [ID!]
     }
 
