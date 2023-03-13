@@ -8,7 +8,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "build": "webpack --mode=production && mv build ./src/public",
+    "build": "webpack --mode=production && node server.js",
     "start": "webpack serve --mode=development"
   },
   "repository": {
