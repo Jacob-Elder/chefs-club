@@ -5,9 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "build": "webpack --mode=production",
-    "start": "webpack serve --mode=development",
-    "ts-node": "ts-node"
+    "build": "webpack --mode=production && mv build ./public",
+    "start": "webpack serve --mode=development"
   },
   "repository": {
     "type": "git",
@@ -47,6 +46,7 @@
     "@graphql-tools/schema": "^9.0.16",
     "babel-plugin-macros": "^3.1.0",
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
     "core-js": "^3.28.0",
     "cors": "^2.8.5",
     "dataloader": "^2.2.2",

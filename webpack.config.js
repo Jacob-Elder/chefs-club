@@ -6,8 +6,8 @@ const config = (env, argv) => {
   console.log("argv.mode = ", argv.mode)
   //define global variables based on environment (development/production)
   const backend_url = argv.mode === "production"
-    ? "http://localhost:4000"
-    : "http://localhost:4000"
+    ? "/graphql"
+    : "http://localhost:4000/graphql"
 
   return {
     entry: './src/index.js',
