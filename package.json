@@ -2,6 +2,9 @@
   "name": "chefs-club",
   "version": "1.0.0",
   "description": "Social recipe site made with ReactJS.",
+  "engines": {
+    "node": "19.x"
+  },
   "main": "webpack.config.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
