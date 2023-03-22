@@ -5,7 +5,7 @@ const config = (env, argv) => {
   console.log("argv.mode = ", argv.mode)
   //define global variables based on environment (development/production)
   const backend_url = argv.mode === "production"
-    ? "http://localhost:4000"
+    ? "https://calm-earth-97722.herokuapp.com"
     : "http://localhost:4000"
 
   return {

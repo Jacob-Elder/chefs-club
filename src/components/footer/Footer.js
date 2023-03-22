@@ -5,7 +5,7 @@ const Footer = () => {
 
     return (
         <div className='footer'>
-            Jacob Elder, 2023
+            Jacob Elder, 2023. All rights reserved.
         </div>
     )
 

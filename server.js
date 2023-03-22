@@ -34,106 +34,62 @@ mongoose.connect(MONGODB_URI).then(() => {
 
 //mongoose.set('debug', true);
 
+//Serving React Frontend (Oldway)
+const path = require('path');
 
-// const start = async () => {
-//   const app = express()
-//   const httpServer = http.createServer(app)
-
-//   const wsServer = new WebSocketServer({
-//     server: httpServer,
-//     path: "/"
-//   })
-
-//   const schema = makeExecutableSchema({ typeDefs, resolvers })
-//   const serverCleanup = useServer({ schema }, wsServer)
-
-//   const server = new ApolloServer({
-//     schema,
-//     plugins: [
-//       ApolloServerPluginDrainHttpServer({ httpServer }),
-//       {
-//         async serverWillStart() {
-//           return {
-//             async drainServer() {
-//               await serverCleanup.dispose();
-//             },
-//           };
-//         },
-//       },
-//     ],
-//   })
-
-//   await server.start()
-
-//   app.use(
-//     '/',
-//     cors(),
-//     express.json(),
-//     expressMiddleware(server, {
-//       context: async ({req}) => {
-//         //data loader to batch user IDs into a single query
-//         const userLoader = new DataLoader(async keys => {
-//           const users = await User.find({_id : { $in: keys}})
-//           const userMap = {}
-//           users.forEach(user => {
-//             userMap[user._id] = user
-//           })
-//           console.log("keys: ", keys)
-//           const userLoaderResult = keys.map(key => userMap[key])
-//           console.log("user Loader result: ", userLoaderResult)
-//           return userLoaderResult
-//         })
-//         //get auth header and find current user data
-//         const auth = req ? req.headers.authorization : null
-//         if (auth && auth.startsWith('Bearer ')) {
-//           const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
-//           const currentUser = await User.findOne({_id : decodedToken._id})
-//           return { currentUser, userLoader }
-//         }
-//       }
-//     })
-//   )
-
-//   const PORT = 4000
-
-//   httpServer.listen(PORT, () => {
-//     console.log(`Server is now running on port: ${PORT}`)
-//   })
-
-// }
-
-//start()
+const app = express();
+const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
 
-// start server and set context to allow for authorization header in requests
-// context is given to all resolvers as their 3rd parameter
-// context is the place to perform logic that is shared by multiple resolvers (such as authentication)
-startStandaloneServer(server, {
-  listen: { port: 4000 },
-  context: async ({req, res}) => {
-    //data loader to batch user IDs into a single query
-    let userLoaderResult = null
-    const userLoader = new DataLoader(async keys => {
-      const users = await User.find({_id : { $in: keys}})
-      const userMap = {}
-      users.forEach(user => {
-        userMap[user._id] = user
-      })
-      userLoaderResult = keys.map(key => userMap[key])
-    })
-    //check for auth header from client
-    const auth = req ? req.headers.authorization : null
-    let currentUser = null
-    if (auth && auth.startsWith('Bearer ')) {
-      const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
-      currentUser = await User.findOne({_id : decodedToken._id})
-    }
-    return {currentUser, userLoaderResult}
-  }
-}).then(({ url }) => {
-  console.log(`Server ready at ${url}`)
-})
+async function startServer() {
+  await server.start();
+
+  //Serving React Build
+  app.use(express.static(path.join(__dirname, 'build')));
+
+  app.use(
+    '/',
+    cors(),
+    bodyParser.json({ limit: '50mb' }),
+    // expressMiddleware accepts the same arguments:
+    // an Apollo Server instance and optional configuration options
+    expressMiddleware(server, {
+      context: async ({req, res}) => {
+        //data loader to batch user IDs into a single query
+        let userLoaderResult = null
+    
+        const userLoader = new DataLoader(async keys => {
+          const users = await User.find({_id : { $in: keys}})
+          const userMap = {}
+          users.forEach(user => {
+            userMap[user._id] = user
+          })
+          userLoaderResult = keys.map(key => userMap[key])
+        })
+    
+        //check for auth header from client
+        const auth = req ? req.headers.authorization : null
+    
+        let currentUser = null
+        
+        if (auth && auth.startsWith('Bearer ')) {
+          const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
+          currentUser = await User.findOne({_id : decodedToken._id})
+        }
+    
+        return {currentUser, userLoaderResult}
+      }
+    }),
+  );
+
+  // Modified server startup
+  new Promise((resolve) => httpServer.listen({ port: process.env.PORT || 4000 }, resolve));
+  console.log(`🚀 Server running `);
+}
+
+startServer();
