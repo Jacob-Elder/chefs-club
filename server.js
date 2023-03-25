@@ -76,7 +76,6 @@ async function startServer() {
         const auth = req ? req.headers.authorization : null
     
         let currentUser = null
-        
         if (auth && auth.startsWith('Bearer ')) {
           const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET)
           currentUser = await User.findOne({_id : decodedToken._id})

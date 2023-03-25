@@ -32,6 +32,7 @@ const typeDefs = `
         newPosts: [Post!]
         getUserData(_id: ID!) : User
         me: User
+        meByToken(token: String!) : User
     }
 
     type Mutation {

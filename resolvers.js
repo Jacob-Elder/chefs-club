@@ -29,7 +29,6 @@ const resolvers = {
     Query: {
       allPosts: (root, args) => {
         //get all posts from MongoDB
-        console.log("post.find")
         return Post.find()
           .then(posts => {
             return posts
@@ -86,16 +85,20 @@ const resolvers = {
       },
       getUserData: (root, args) => {
         //get user data based on ID
-        console.log("trying to find user with ID: ", args._id)
         return User.findOne({_id: args._id})
           .then(result => {
-            console.log(result)
             return result
           })
       },
       me: (root, args, context) => {
-        console.log("me server route hit. returning: ", context.currentUser)
         return context.currentUser
+      },
+      meByToken: (root, args, context) => {
+        const decodedToken = jwt.verify(args.token, process.env.SECRET)
+        return User.findOne({_id: decodedToken._id})
+          .then(result => {
+            return result
+          })
       }
     },
     //mutation resolvers
@@ -174,7 +177,6 @@ const resolvers = {
         }
         //add post id to user's posts
         let user = await User.findById(currentUser._id)
-        console.log("found user to update: ", user)
         user.userPosts.push(newPost._id)
         await user.save()
         //send new post to subscribers

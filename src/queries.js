@@ -162,7 +162,7 @@ export const GET_USER_PROFILE = gql`
   }
 `
 
-//query to get the current user with web token
+//query to get the current user with web token stored in local storage
 export const GET_CURRENT_USER = gql`
 query {
   me {
@@ -181,6 +181,29 @@ query {
     likedPosts
   }
 }
+`
+
+//query to get current user with web token passed as a parameter
+export const GET_CURRENT_USER_BY_TOKEN = gql`
+query meByToken($token: String!) {
+    meByToken(
+      token: $token
+    ) {
+      _id
+    username
+    email
+    userPosts {
+      _id
+      title
+      ingredients
+      steps
+      tags
+      likes
+      date
+    }
+    likedPosts
+    }
+  }
 `
 
 //query to set up a subscription for new posts being added

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {useMutation, useLazyQuery} from "@apollo/client"
-import {LOGIN, GET_CURRENT_USER} from "../../queries.js"
+import {LOGIN, GET_CURRENT_USER_BY_TOKEN} from "../../queries.js"
 import "./LoginForm.css"
 import ErrorMessage from '../errorMessage/ErrorMessage.js'
 
@@ -13,12 +13,11 @@ const LoginForm = ({setToken, setMe}) => {
     const [tempToken, setTempToken] = useState(null)
 
     //query to get user data after after generating token
-    const [getUserData, currentUserQuery] = useLazyQuery(GET_CURRENT_USER, {
-        notifyOnNetworkStatusChange: true,
+    const [getUserData, currentUserQuery] = useLazyQuery(GET_CURRENT_USER_BY_TOKEN, {
         onCompleted: (data) => {
-            console.log("login form got user data", data)
-            if (data.me) {
-                setMe({...data.me})
+            if (data.meByToken) {
+                setMe({...data.meByToken})
+                navigate("/", {replace: true})
             }
         }
     })
@@ -26,25 +25,23 @@ const LoginForm = ({setToken, setMe}) => {
     //create login mutation that stores server response in 'result' variable
     const [login, result] = useMutation(LOGIN, {
         onCompleted: (data) => {
-            console.log("login mutation complete", data)
+            //console.log("login mutation complete", data)
         },
         onError: (error) => {
             setError(error.graphQLErrors[0].message)
         }
     })
 
-    //async function to save token to local storage after login
+    //async function to save token to local storage after login and make call to get current user's data
     const loginHelper = async () => {
         const token = result.data.login.value
         setToken(token)
-        console.log("saving token to localstorage: ", token)
         await localStorage.setItem("ChefsClub-Token", token)
-        navigate("/", {replace: true})
+        getUserData({variables: {token}})
     }
 
     //save token to local storage and App component state after server responds to mutation
     useEffect(() => {
-        console.log("login useEffect hit")
         if (result.data) {
             loginHelper()
         }
@@ -53,7 +50,6 @@ const LoginForm = ({setToken, setMe}) => {
     //invoke the login mutation with the email and password entered by the user
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log("deez be the values entered: ", email, password)
         login({variables: {email, password}})
     }
 
